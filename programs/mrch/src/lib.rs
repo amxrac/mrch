@@ -6,7 +6,7 @@ mod instructions;
 mod state;
 use instructions::*;
 
-declare_id!("4pcPQyPsCTKD5E3zzibmofY29ggZhRhfpFgFRodmcLzA");
+declare_id!("FeyoWtEFUGCEe9er1RXWyFDPUZ7PLeCsdvmgDNsjS81M");
 
 #[program]
 pub mod mrch {
