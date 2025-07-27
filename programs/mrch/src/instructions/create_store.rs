@@ -19,7 +19,6 @@ pub struct CreateStore<'info> {
 pub fn handler(ctx: Context<CreateStore>, seed: u64, name: String) -> Result<()> {
     let store = &mut ctx.accounts.store_account;
     store.owner = ctx.accounts.owner.key();
-    store.seed = seed;
     store.name = name;
     store.bump = ctx.bumps.store_account;
     Ok(())

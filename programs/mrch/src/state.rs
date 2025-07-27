@@ -16,7 +16,6 @@ pub struct PurchaseEscrow {
 #[account]
 pub struct Listing {
     pub store: Pubkey,
-    pub listing_id: u64,
     #[max_len(100)]
     pub name: String,
     pub price: u64,
@@ -30,7 +29,6 @@ pub struct Listing {
 #[account]
 pub struct StoreAccount {
     pub owner: Pubkey,
-    pub seed: u64,
     #[max_len(100)]
     pub name: String,
     pub bump: u8,
