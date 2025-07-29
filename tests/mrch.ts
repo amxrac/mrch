@@ -31,7 +31,7 @@ describe("mrch", () => {
   it("creates the store!", async () => {
     // Add your test here.
     const seed = new anchor.BN(1);
-    const name = "New Store";
+    const name = "Test Store";
     const [storeAccount] = PublicKey.findProgramAddressSync(
       [
         Buffer.from("store"),
@@ -50,5 +50,45 @@ describe("mrch", () => {
       .signers([owner])
       .rpc();
     console.log("your store creation transaction signature", tx);
+  });
+
+  it("creates a listing!", async () => {
+    const store = owner.publicKey;
+    const name = "Test Store";
+    const price = new anchor.BN(10);
+    const quantity = new anchor.BN(5);
+    const image_uri =
+      "https://fastly.picsum.photos/id/611/600/600.jpg?hmac=vYc-htgLQzsJ9EiYYBXUr0Byvb7SmdL0D1BvlzX13n0";
+    const store_seed = new anchor.BN(1);
+    const listing_seed = new anchor.BN(1);
+    const [storeAccount] = PublicKey.findProgramAddressSync(
+      [
+        Buffer.from("store"),
+        owner.publicKey.toBuffer(),
+        store_seed.toArrayLike(Buffer, "le", 8),
+      ],
+      program.programId
+    );
+    const [listingAccount] = PublicKey.findProgramAddressSync(
+      [
+        Buffer.from("listing"),
+        storeAccount.toBuffer(),
+        listing_seed.toArrayLike(Buffer, "le", 8),
+      ],
+      program.programId
+    );
+
+    const tx = await program.methods
+      .createListing(store_seed, listing_seed, name, price, quantity, image_uri)
+      .accountsPartial({
+        owner: owner.publicKey,
+        storeAccount,
+        listingAccount,
+        systemProgram: SystemProgram.programId,
+      })
+      .signers([owner])
+      .rpc();
+
+    console.log("your store listing transaction signature", tx);
   });
 });
