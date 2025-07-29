@@ -2,7 +2,7 @@ use crate::state::StoreAccount;
 use anchor_lang::prelude::*;
 
 #[derive(Accounts)]
-#[instruction(seed: u64, name: String)]
+#[instruction(seed: u64, store_name: String)]
 pub struct CreateStore<'info> {
     #[account(mut)]
     pub owner: Signer<'info>,
@@ -16,10 +16,10 @@ pub struct CreateStore<'info> {
     pub store_account: Account<'info, StoreAccount>,
     pub system_program: Program<'info, System>,
 }
-pub fn handler(ctx: Context<CreateStore>, seed: u64, name: String) -> Result<()> {
+pub fn handler(ctx: Context<CreateStore>, seed: u64, store_name: String) -> Result<()> {
     let store = &mut ctx.accounts.store_account;
     store.owner = ctx.accounts.owner.key();
-    store.name = name;
+    store.store_name = store_name;
     store.bump = ctx.bumps.store_account;
     Ok(())
 }

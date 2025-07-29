@@ -3,9 +3,11 @@ use anchor_lang::prelude::*;
 #[derive(InitSpace)]
 #[account]
 pub struct PurchaseEscrow {
-    pub seed: u64,
     pub buyer: Pubkey,
-    pub listing_id: u64,
+    pub store: Pubkey,
+    pub listing: Pubkey,
+    pub price: u64,
+    pub quantity: u64,
     #[max_len(100)]
     pub item_name: String,
     pub status: PurchaseEscrowStatus,
@@ -17,7 +19,7 @@ pub struct PurchaseEscrow {
 pub struct Listing {
     pub store: Pubkey,
     #[max_len(100)]
-    pub name: String,
+    pub listing_name: String,
     pub price: u64,
     pub quantity: u64,
     #[max_len(100)]
@@ -30,7 +32,7 @@ pub struct Listing {
 pub struct StoreAccount {
     pub owner: Pubkey,
     #[max_len(100)]
-    pub name: String,
+    pub store_name: String,
     pub bump: u8,
 }
 

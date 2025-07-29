@@ -2,7 +2,7 @@ use crate::state::{Listing, StoreAccount};
 use anchor_lang::prelude::*;
 
 #[derive(Accounts)]
-#[instruction(store_seed: u64, listing_seed: u64, name: String, price: u64, quantity: u64, image_uri: String)]
+#[instruction(store_seed: u64, listing_seed: u64, listing_name: String, price: u64, quantity: u64, image_uri: String)]
 pub struct CreateListing<'info> {
     #[account(mut)]
     pub owner: Signer<'info>,
@@ -27,14 +27,14 @@ pub fn handler(
     ctx: Context<CreateListing>,
     store_seed: u64,
     listing_seed: u64,
-    name: String,
+    listing_name: String,
     price: u64,
     quantity: u64,
     image_uri: String,
 ) -> Result<()> {
     let listing = &mut ctx.accounts.listing_account;
     listing.store = ctx.accounts.store_account.key();
-    listing.name = name;
+    listing.listing_name = listing_name;
     listing.price = price;
     listing.quantity = quantity;
     listing.image_uri = image_uri;

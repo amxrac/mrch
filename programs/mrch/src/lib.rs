@@ -12,8 +12,8 @@ declare_id!("FeyoWtEFUGCEe9er1RXWyFDPUZ7PLeCsdvmgDNsjS81M");
 pub mod mrch {
     use super::*;
 
-    pub fn create_store(ctx: Context<CreateStore>, seed: u64, name: String) -> Result<()> {
-        instructions::create_store::handler(ctx, seed, name)
+    pub fn create_store(ctx: Context<CreateStore>, seed: u64, store_name: String) -> Result<()> {
+        instructions::create_store::handler(ctx, seed, store_name)
     }
 
     pub fn create_listing(
@@ -34,5 +34,15 @@ pub mod mrch {
             quantity,
             image_uri,
         )
+    }
+
+    pub fn make_purchase(
+        ctx: Context<Purchase>,
+        store_seed: u64,
+        listing_seed: u64,
+        escrow_seed: u64,
+        quantity: u64,
+    ) -> Result<()> {
+        instructions::purchase::handler(ctx, store_seed, listing_seed, escrow_seed, quantity)
     }
 }

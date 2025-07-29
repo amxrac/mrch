@@ -31,7 +31,7 @@ describe("mrch", () => {
   it("creates the store!", async () => {
     // Add your test here.
     const seed = new anchor.BN(1);
-    const name = "Test Store";
+    const store_name = "Test Store";
     const [storeAccount] = PublicKey.findProgramAddressSync(
       [
         Buffer.from("store"),
@@ -41,7 +41,7 @@ describe("mrch", () => {
       program.programId
     );
     const tx = await program.methods
-      .createStore(seed, name)
+      .createStore(seed, store_name)
       .accountsPartial({
         owner: owner.publicKey,
         storeAccount,
@@ -54,7 +54,7 @@ describe("mrch", () => {
 
   it("creates a listing!", async () => {
     const store = owner.publicKey;
-    const name = "Test Store";
+    const listing_name = "Test Listing";
     const price = new anchor.BN(10);
     const quantity = new anchor.BN(5);
     const image_uri =
@@ -79,7 +79,14 @@ describe("mrch", () => {
     );
 
     const tx = await program.methods
-      .createListing(store_seed, listing_seed, name, price, quantity, image_uri)
+      .createListing(
+        store_seed,
+        listing_seed,
+        listing_name,
+        price,
+        quantity,
+        image_uri
+      )
       .accountsPartial({
         owner: owner.publicKey,
         storeAccount,
