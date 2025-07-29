@@ -1,6 +1,6 @@
 use anchor_lang::{prelude::*, system_program};
 
-use crate::errors::PurchaseEscrowError;
+use crate::errors::PurchaseError;
 use crate::state::{Listing, PurchaseEscrow, PurchaseEscrowStatus, StoreAccount};
 
 #[derive(Accounts)]
@@ -80,13 +80,13 @@ pub fn handler(
 ) -> Result<()> {
     let listing = &ctx.accounts.listing;
     let total_price = listing.price * quantity;
-    require_gt!(listing.price, 0, PurchaseEscrowError::InvalidPrice);
-    require_gt!(quantity, 0, PurchaseEscrowError::InvalidQuantity);
+    require_gt!(quantity, 0, PurchaseError::InvalidQuantity);
     require_gte!(
-        listing.quantity,
-        quantity,
-        PurchaseEscrowError::InsufficientStock
+        ctx.accounts.buyer.lamports(),
+        total_price,
+        PurchaseError::InsufficientFunds
     );
+    require_gte!(listing.quantity, quantity, PurchaseError::InsufficientStock);
 
     ctx.accounts.populate_escrow(
         total_price,

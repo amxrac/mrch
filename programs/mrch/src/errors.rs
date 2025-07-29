@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 
 #[error_code]
-pub enum PurchaseEscrowError {
+pub enum PurchaseError {
     #[msg("Invalid Price")]
     InvalidPrice,
     #[msg("Invalid store")]
@@ -10,4 +10,6 @@ pub enum PurchaseEscrowError {
     InvalidQuantity,
     #[msg("Insufficient stock")]
     InsufficientStock,
+    #[msg("Insufficient funds")]
+    InsufficientFunds,
 }

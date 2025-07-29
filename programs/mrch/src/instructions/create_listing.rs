@@ -1,3 +1,4 @@
+use crate::errors::*;
 use crate::state::{Listing, StoreAccount};
 use anchor_lang::prelude::*;
 
@@ -33,6 +34,7 @@ pub fn handler(
     image_uri: String,
 ) -> Result<()> {
     let listing = &mut ctx.accounts.listing_account;
+    require_gt!(price, 0, PurchaseError::InvalidPrice);
     listing.store = ctx.accounts.store_account.key();
     listing.listing_name = listing_name;
     listing.price = price;
